@@ -1,0 +1,5 @@
+{
+  "name": "Live Pulse Portal",
+  "description": "A live news and social media monitoring portal with real-time updates, interactive map plotting, and dynamic feed scrollers.",
+  "requestFramePermissions": ["geolocation"]
+}
