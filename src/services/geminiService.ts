@@ -23,7 +23,11 @@ export async function fetchLivePulse(query: string): Promise<NewsItem[]> {
     - A high-quality placeholder image URL (use https://picsum.photos/seed/{id}/800/600)
     - A specific location mentioned in the news (city, country) with its latitude and longitude.
     - A relative timestamp (e.g., "2m ago", "1h ago", "Just now").
-    - 2-3 relevant keywords or tags for this specific item.`,
+    - 2-3 relevant keywords or tags for this specific item.
+    - A fact-check analysis including:
+        - status: one of "verified", "unverified", "disputed", "developing"
+        - score: a reliability score from 0 to 100
+        - reason: a short explanation for the status and score.`,
     config: {
       tools: [{ googleSearch: {} }],
       responseMimeType: "application/json",
@@ -42,6 +46,15 @@ export async function fetchLivePulse(query: string): Promise<NewsItem[]> {
             keywords: {
               type: Type.ARRAY,
               items: { type: Type.STRING }
+            },
+            factCheck: {
+              type: Type.OBJECT,
+              properties: {
+                status: { type: Type.STRING, description: 'verified, unverified, disputed, or developing' },
+                score: { type: Type.NUMBER },
+                reason: { type: Type.STRING }
+              },
+              required: ["status", "score"]
             },
             location: {
               type: Type.OBJECT,

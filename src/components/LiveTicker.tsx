@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { GripVertical } from 'lucide-react';
+import { GripVertical, ShieldCheck, ShieldAlert } from 'lucide-react';
 import { NewsItem } from '../types';
 
 interface LiveTickerProps {
@@ -31,6 +31,12 @@ export const LiveTicker: React.FC<LiveTickerProps> = ({ items }) => {
               <span className={`font-mono text-xs mr-3 uppercase tracking-widest ${item.isNew ? 'text-white bg-emerald-500 px-2 rounded' : 'text-emerald-400'}`}>
                 {item.isNew ? 'NEW' : 'LIVE'}
               </span>
+              {item.factCheck?.status === 'verified' && (
+                <ShieldCheck className="w-3 h-3 text-emerald-400 mr-2" />
+              )}
+              {item.factCheck?.status === 'disputed' && (
+                <ShieldAlert className="w-3 h-3 text-red-400 mr-2" />
+              )}
               <span className="text-zinc-300 font-medium">{item.title}</span>
               <span className="mx-4 text-zinc-600">•</span>
               <span className="text-zinc-500 text-sm italic">{item.source}</span>

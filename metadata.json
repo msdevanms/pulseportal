@@ -1,5 +1,5 @@
 {
-  "name": "Live Pulse Portal",
-  "description": "A live news and social media monitoring portal with real-time updates, interactive map plotting, and dynamic feed scrollers.",
+  "name": "PulsePortal Intelligence",
+  "description": "Real-time global intelligence monitoring with AI fact-checking, geographic impact mapping, and dynamic pulse clouds.",
   "requestFramePermissions": ["geolocation"]
 }

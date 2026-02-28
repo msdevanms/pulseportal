@@ -1,11 +1,37 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ExternalLink, MapPin, Clock } from 'lucide-react';
+import { ExternalLink, MapPin, Clock, ShieldCheck, ShieldAlert, ShieldQuestion, Info } from 'lucide-react';
 import { NewsItem } from '../types';
 
 interface NewsGridProps {
   items: NewsItem[];
 }
+
+const FactCheckBadge: React.FC<{ factCheck: NewsItem['factCheck'] }> = ({ factCheck }) => {
+  if (!factCheck) return null;
+
+  const config = {
+    verified: { icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+    unverified: { icon: ShieldQuestion, color: 'text-zinc-400', bg: 'bg-zinc-500/10', border: 'border-zinc-500/20' },
+    disputed: { icon: ShieldAlert, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+    developing: { icon: Info, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
+  }[factCheck.status];
+
+  const Icon = config.icon;
+
+  return (
+    <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${config.bg} ${config.color} ${config.border} text-[10px] font-bold uppercase tracking-wider mb-4 group/fc relative`}>
+      <Icon className="w-3.5 h-3.5" />
+      <span>{factCheck.status} • {factCheck.score}%</span>
+      
+      {factCheck.reason && (
+        <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-zinc-900 border border-white/10 rounded-lg text-[10px] normal-case font-medium text-zinc-300 opacity-0 group-hover/fc:opacity-100 transition-opacity pointer-events-none z-50 shadow-xl">
+          {factCheck.reason}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const NewsGrid: React.FC<NewsGridProps> = ({ items }) => {
   return (
@@ -42,6 +68,8 @@ export const NewsGrid: React.FC<NewsGridProps> = ({ items }) => {
           </div>
           
           <div className="p-6 flex-1 flex flex-col">
+            <FactCheckBadge factCheck={item.factCheck} />
+            
             <div className="flex items-center gap-4 text-zinc-500 text-xs mb-3">
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3" />

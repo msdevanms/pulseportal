@@ -8,6 +8,11 @@ export interface NewsItem {
   publishedAt: string;
   keywords: string[];
   isNew?: boolean;
+  factCheck?: {
+    status: 'verified' | 'unverified' | 'disputed' | 'developing';
+    score: number;
+    reason?: string;
+  };
   location?: {
     name: string;
     lat: number;
